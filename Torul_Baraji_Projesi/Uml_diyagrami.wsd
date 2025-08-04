@@ -1,0 +1,99 @@
+@startuml Torul
+
+class Main{}
+
+class Balik
+{
+    + int Kayit_numarasi {get;set;}
+    + string Ad {get;set;}
+    + Datetime Kayit_tarihi 
+    + string Davranislari {get;set;}
+    + string Mevsimsel_davranislari {get;set;}
+}
+
+class Balik_ekle
+{
+    + yeni_balik():Balik
+}
+
+class Balik_goster
+{
+    + override void Okuma()
+}
+
+class Arastirmaci
+{
+    - string isim
+    - string unvan
+    - string bolum
+}
+
+class Arastirmaci_ekle
+{
+    + arastirmaci_ekle():Arastirmaci
+}
+
+class Arastirmaci_goster
+{
+    + override void Okuma()
+}
+
+class Ses_oynatici
+{
+    + sesi_cal(dosya_yolu:string):void
+}
+
+class AudiofieReader
+{
+    + AudiofieReader : (dosya_yolu:string)
+}
+
+class WaveOutEvent
+{
+    + Init :(sesdosyasi : string)
+    + Play()
+    + playbackstate : playbackstate
+}
+
+class Ses_calinmasi
+{
+    + ses_kayitlari() : void
+}
+
+class Canli_ses
+{
+    + Cal() : void
+}
+abstract class Okuma_islemi
+{
+    + void Oku()
+    + abstract void Okuma()
+}
+class Veri
+{
+    + veri_yonetimi ():void
+}
+
+
+Okuma_islemi -|> Balik_goster : exdents
+Okuma_islemi -|> Arastirmaci_goster : exdents
+
+Balik_ekle --> Balik : uses
+Arastirmaci_ekle --> Arastirmaci : uses
+
+Ses_oynatici <-- Ses_calinmasi : uses
+Ses_oynatici --> AudiofieReader : uses
+Ses_oynatici --> WaveOutEvent : uses
+Canli_ses <-- Ses_oynatici : uses
+
+Veri <-- Balik_goster : uses
+Veri <-- Arastirmaci_goster : uses
+Veri <-- Ses_calinmasi : uses
+
+Main --> Balik_ekle : calls
+Main --> Arastirmaci_ekle : calls
+Main --> Canli_ses : calls
+Main --> Veri : calls
+
+hide empty member
+@enduml
